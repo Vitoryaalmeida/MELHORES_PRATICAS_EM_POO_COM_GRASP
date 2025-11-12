@@ -15,12 +15,13 @@ public class Produto {
     private int codigo;
     private String nome;
     private double preco;
-
+    
     /**
      * Construtor da classe Produto.
      * 
      * Cria um produto com código, nome e preço definidos.
      */
+
     public Produto(int codigo, String nome, double preco) {
         this.codigo = codigo;
         this.nome = nome;
@@ -28,16 +29,21 @@ public class Produto {
     }
 
     // Métodos de acesso (getters)
-    public int getCodigo() {
+    public int getCodigo() { 
         return codigo;
     }
-
     public String getNome() {
-        return nome;
+        return nome; 
+    }
+    public double getPreco() { 
+        return preco; 
     }
 
-    public double getPreco() {
-        return preco;
+    public void setNome(String nome) { 
+        this.nome = nome;
+    }
+    public void setPreco(double preco) { 
+        this.preco = preco; 
     }
 
     // Exibe as informações do produto
@@ -46,3 +52,4 @@ public class Produto {
         return "Código: " + codigo + " | Produto: " + nome + " | Preço: R$ " + preco;
     }
 }
+
