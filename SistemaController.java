@@ -44,7 +44,7 @@ public class SistemaController {
                     System.out.println("Encerrando o sistema... Até logo!");
                     break;
                 default:
-                    System.out.println("⚠️ Opção inválida, tente novamente.");
+                    System.out.println("Opção inválida, tente novamente.");
             }
         } while (opcao != 0);
     }
