@@ -2,36 +2,36 @@ import java.util.Scanner;
 
 /**
  * Classe: SistemaController
- *
- * Princípio GRASP aplicado:
- *  - Controller
- *
- * Justificativa:
- * A classe SistemaController atua como o controlador central do sistema.
- * Ela é responsável por receber as entradas do usuário (menu),
- * delegar as ações para as classes correspondentes (como Mercado)
- * e manter o fluxo principal do programa.
  * 
- * Assim, segue o princípio Controller do GRASP, separando a lógica de controle
- * da lógica de negócio (Mercado e Produto), promovendo alta coesão e baixo acoplamento.
+ * Princípios GRASP aplicados:
+ *  Controller e Low Coupling
+ * 
+ * Justificativa:
+ * Esta classe é responsável por controlar o fluxo do sistema, recebendo
+ * as entradas do usuário e delegando as ações para a classe Mercado.
+ * Assim, mantém baixo acoplamento entre interface e lógica de negócios.
  */
 public class SistemaController {
+    private Mercado mercado;
+    private Scanner scanner;
 
-    private Mercado mercado = new Mercado();
-    private Scanner input = new Scanner(System.in);
+    public SistemaController() {
+        mercado = new Mercado();
+        scanner = new Scanner(System.in);
+    }
 
-    /**
-     * Método: iniciar
-     *
-     * Controla o fluxo do sistema e a interação com o usuário.
-     * Aplicação direta do padrão GRASP Controller.
-     */
     public void iniciar() {
         int opcao;
-
         do {
-            exibirMenu();
-            opcao = lerInteiro("Escolha uma opção: ");
+            System.out.println("\n===== SISTEMA DE MERCADO =====");
+            System.out.println("1 - Adicionar produto");
+            System.out.println("2 - Listar produtos");
+            System.out.println("3 - Atualizar produto");
+            System.out.println("4 - Remover produto");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // limpar buffer
 
             switch (opcao) {
                 case 1:
@@ -40,52 +40,44 @@ public class SistemaController {
                 case 2:
                     mercado.listarProdutos();
                     break;
+                case 3:
+                    atualizarProduto();
+                    break;
+                case 4:
+                    removerProduto();
+                    break;
                 case 0:
-                    System.out.println("Encerrando o sistema... Até logo!");
+                    System.out.println("Encerrando o sistema...");
                     break;
                 default:
-                    System.out.println("Opção inválida, tente novamente.");
+                    System.out.println("Opção inválida! Tente novamente.");
+                    break;
             }
         } while (opcao != 0);
     }
 
-    // --- Métodos auxiliares ---
-
-    private void exibirMenu() {
-        System.out.println("\n=== SISTEMA DE MERCADO ===");
-        System.out.println("1 - Adicionar Produto");
-        System.out.println("2 - Listar Produtos");
-        System.out.println("0 - Sair");
-    }
-
     private void adicionarProduto() {
         System.out.print("Nome do produto: ");
-        String nome = input.nextLine();
-
-        double preco = lerDouble("Preço do produto: ");
-
+        String nome = scanner.nextLine();
+        System.out.print("Preço: ");
+        double preco = scanner.nextDouble();
         mercado.adicionarProduto(nome, preco);
     }
 
-    private int lerInteiro(String mensagem) {
-        System.out.print(mensagem);
-        while (!input.hasNextInt()) {
-            System.out.print("Por favor, digite um número válido: ");
-            input.next();
-        }
-        int valor = input.nextInt();
-        input.nextLine(); // limpar o buffer
-        return valor;
+    private void atualizarProduto() {
+        System.out.print("Código do produto a atualizar: ");
+        int codigo = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Novo nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Novo preço: ");
+        double preco = scanner.nextDouble();
+        mercado.atualizarProduto(codigo, nome, preco);
     }
 
-    private double lerDouble(String mensagem) {
-        System.out.print(mensagem);
-        while (!input.hasNextDouble()) {
-            System.out.print("Por favor, digite um número válido: ");
-            input.next();
-        }
-        double valor = input.nextDouble();
-        input.nextLine(); // limpar o buffer
-        return valor;
+    private void removerProduto() {
+        System.out.print("Código do produto a remover: ");
+        int codigo = scanner.nextInt();
+        mercado.removerProduto(codigo);
     }
 }
